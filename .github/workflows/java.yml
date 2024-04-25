@@ -10,11 +10,13 @@ jobs:
   build:
     # Define the type of machine for the job to run on
     runs-on: ubuntu-latest
+    
     # Sequence of steps to run
     steps:
       # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
+      
       # Setup environment
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -22,17 +24,21 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: maven
+      
       # Verify tools
       - name: Verify Java version
         run: java -version
+      
       - name: Verify Maven version
         run: mvn -version
-      # TODO: Build application with Maven
+      
+      # Build application with Maven
       - name: Build with Maven
-        run: echo '🛠️ build me please 🛠️'
-      # Upload artifacts 
+        run: mvn --batch-mode package
+      
+      # Upload artifacts
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: JAR
-          path: target/*.jar
+          name: devopslab-java-1.0-SNAPSHOT.jar
+          path: target/devopslab-java-1.0-SNAPSHOT.jar
