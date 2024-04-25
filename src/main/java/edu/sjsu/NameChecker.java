@@ -5,28 +5,28 @@ public class NameChecker {
      * Checks if a given string is a valid name following these rules:
      * - Between 2 to 40 characters
      * - Contains only alphabetic characters, non-consecutive hyphens, or a single quote
-     * - Cannot start with a hyphen or single quote
+     * - Cannot start or end with a hyphen or single quote
+     * - No consecutive hyphens or apostrophes
      * 
      * @param input Name to check
      * @return True if input is a valid name, else false
      */
     public static boolean check(String input) {
-        // Check for null input and length constraints
         if (input == null || input.length() < 2 || input.length() > 40) {
             return false;
         }
 
-        // Check for invalid start characters
-        if (input.startsWith("-") || input.startsWith("'")) {
+        // Check for invalid start or end characters
+        if (input.startsWith("-") || input.startsWith("'") || input.endsWith("-") || input.endsWith("'")) {
+            return false;
+        }
+
+        // Check for consecutive hyphens or apostrophes
+        if (input.contains("--") || input.contains("''")) {
             return false;
         }
 
         // Regular expression to match valid name patterns
-        // This regex allows alphabetic characters, a single quote, and a hyphen that cannot be at the start or end, nor can it be consecutive.
-        if (!input.matches("^[A-Za-z]+([-'][A-Za-z]+)*$")) {
-            return false;
-        }
-
-        return true;
+        return input.matches("[A-Za-z]+([-'][A-Za-z]+)*");
     }
 }
